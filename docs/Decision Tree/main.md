@@ -1,0 +1,11 @@
+1	Exploração dos Dados 20
+
+2	Pré-processamento 10
+
+3	Divisão dos Dados 20
+
+4	Treinamento do Modelo 10
+
+5	Avaliação do Modelo	20
+
+6	Relatório Final	

@@ -1,8 +1,8 @@
-site_name: Entrega
-site_author: Grupo_Opaloucos
-# site_url: https://hsandmann.github.io/documentation.template
-repo_url: https://github.com/Ycakraft/ML---Projeto-1.git
-repo_name: github/ML---Projeto-1
+site_name: Entregas
+site_author: EnricoDiGioia
+site_url: https://enricodigioia.github.io/Machine-Learning/roteiro%203/main
+repo_url: https://github.com/EnricoDiGioia/Machine-Learning
+repo_name: Machine-Learning
 
 
 theme:

@@ -12,5 +12,5 @@
 
 
 ``` python exec="on" html="1"
---8<-- "/docs/Decision Tree/arvore-Decisao.py"
+--8<-- "./docs/Decision Tree/arvore-Decisao.py"
 ```

@@ -9,3 +9,8 @@
 5	Avaliação do Modelo	20
 
 6	Relatório Final	
+
+
+``` python exec="on" html="1"
+--8<-- "./docs/Decision Tree/arvore-Decisao.py"
+```

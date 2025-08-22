@@ -10,11 +10,10 @@ from sklearn.metrics import accuracy_score
 
 plt.figure(figsize=(12, 10))
 
-file_path = kagglehub.dataset_download("adityadesai13/used-car-dataset-ford-and-mercedes")
+df = pd.read_csv('https://raw.githubusercontent.com/EnricoDiGioia/Machine-Learning/refs/heads/main/data/audi.csv')
+df = df.sample(n=10, random_state=42)
 
-df = pd.read_csv(file_path + "/audi.csv")  # Adjust filename as needed
-
-x = df[['model', 'year', 'price', 'transmission', 'mileage', 'fuelType', 'tax', 'mpg' 'engineSize']]
+x = df[['model', 'year', 'price', 'transmission', 'mileage', 'fuelType', 'tax', 'mpg', 'engineSize']]
 
 label_encoder = LabelEncoder()
 

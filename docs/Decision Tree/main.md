@@ -10,7 +10,7 @@
 
 6	Relatório Final	
 
-``` python exec="on" html="0"
+``` python exec="on" html="1"
 --8<-- "./docs/Decision Tree/limpa-dados.py"
 ```
 

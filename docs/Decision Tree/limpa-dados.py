@@ -8,11 +8,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score
 
-file_path = kagglehub.dataset_download("adityadesai13/used-car-dataset-ford-and-mercedes")
+#Load DataBase
+df = pd.read_csv('https://raw.githubusercontent.com/EnricoDiGioia/Machine-Learning/refs/heads/main/data/audi.csv')
+df = df.sample(n=10, random_state=42)
 
-df = pd.read_csv(file_path + "/audi.csv")  # Adjust filename as needed
-x = df[['model', 'year', 'price', 'transmission', 'mileage', 'fuelType', 'tax', 'mpg' 'engineSize']]
-
-df = df.sample(n=10, random_state=10)
-
+#Display the first few rows
 print(df.to_markdown(index=False))

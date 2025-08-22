@@ -16,3 +16,4 @@ pandas
 yfinance
 kagglehub
 scikit-learn
+yfinance

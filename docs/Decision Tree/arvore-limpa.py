@@ -19,8 +19,8 @@ def preprocess(df):
     features = ['model', 'year', 'price', 'transmission', 'mileage', 'fuelType', 'tax', 'mpg', 'engineSize']
     return df[features]
 
-# Load the Titanic dataset
-df = pd.read_csv('https://raw.githubusercontent.com/hsandmann/ml/refs/heads/main/data/kaggle/titanic-dataset.csv')
+# Load the Audi dataset
+df = pd.read_csv('https://raw.githubusercontent.com/EnricoDiGioia/Machine-Learning/refs/heads/main/data/audi.csv')
 df = df.sample(n=10, random_state=42)
 
 # Preprocessing

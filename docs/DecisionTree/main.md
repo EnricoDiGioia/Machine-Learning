@@ -59,7 +59,7 @@ Com os testes realizados, é possível ver que com esta base de dados é imposs�
 
 6	Relatório Final
 
-## Relatório Final
+## Relatório Final:
 
 Neste projeto, foi realizada a análise e modelagem de dados utilizando a técnica de árvore de decisão. O processo envolveu a exploração dos dados, pré-processamento, codificação de variáveis categóricas, divisão dos dados em conjuntos de treino e teste, e avaliação do desempenho do modelo.
 

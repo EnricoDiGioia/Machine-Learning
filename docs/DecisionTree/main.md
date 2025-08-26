@@ -1,10 +1,10 @@
-1	Exploração dos Dados 20
+## 1	Exploração dos Dados 20
 
 ``` python exec="on" html="0"
 --8<-- "./docs/DecisionTree/limpa-dados.py"
 ```
 
-2	Pré-processamento 10
+## 2	Pré-processamento 10
 
 2.1 Data cleaning
 
@@ -22,14 +22,14 @@
 
 4	Treinamento do Modelo 10
 
-Teste com 80% dos dados para treino
+## Teste com 80% dos dados para treino
 
 ``` python exec="on" html="0"
 --8<-- "./docs/DecisionTree/arvore-treino.py"
 ```
 O teste com 80% atingiu 99% de acurácia, ou seja, overfitting.
 
-Teste com 70% dos dados para treino
+## Teste com 70% dos dados para treino
 
 ``` python exec="on" html="0"
 --8<-- "./docs/DecisionTree/arvore-treino2.py"
@@ -37,7 +37,7 @@ Teste com 70% dos dados para treino
 
 O teste com 70% atingiu 99% de acurácia, ou seja, overfitting.
 
-Teste com 60% dos dados para treino
+## Teste com 60% dos dados para treino
 
 ``` python exec="on" html="0"
 --8<-- "./docs/DecisionTree/arvore-treino3.py"
@@ -45,7 +45,7 @@ Teste com 60% dos dados para treino
 
 O teste com 60% atingiu 99% de acurácia, ou seja, overfitting.
 
-Teste com 50% dos dados para treino
+## Teste com 50% dos dados para treino
 
 ``` python exec="on" html="0"
 --8<-- "./docs/DecisionTree/arvore-treino4.py"
@@ -54,12 +54,11 @@ Teste com 50% dos dados para treino
 O teste com 50% atingiu 99% de acurácia, ou seja, overfitting.
 
 ## 5	Avaliação do Modelo	20
+
 Com os testes realizados, é possível ver que com esta base de dados é impossível fazer um modelo confiável com esta técnica. Talvez, usando alguma outra técnica ou com mais dados, seria possível.
 
 
-6	Relatório Final
-
-## Relatório Final:
+## 6	Relatório Final
 
 Neste projeto, foi realizada a análise e modelagem de dados utilizando a técnica de árvore de decisão. O processo envolveu a exploração dos dados, pré-processamento, codificação de variáveis categóricas, divisão dos dados em conjuntos de treino e teste, e avaliação do desempenho do modelo.
 

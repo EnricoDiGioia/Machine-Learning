@@ -8,7 +8,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score
 
-plt.figure(figsize=(12, 10))
 
 # Preprocess the data
 def preprocess(df):
@@ -26,6 +25,8 @@ def preprocess(df):
     features = ['model', 'year', 'price', 'transmission', 'mileage', 'fuelType', 'tax', 'mpg', 'engineSize']
     return df[features]
 
+plt.figure(figsize=(12, 10))
+
 # Load the Audi dataset
 df = pd.read_csv('https://raw.githubusercontent.com/EnricoDiGioia/Machine-Learning/refs/heads/main/data/audi.csv')
 
@@ -36,7 +37,11 @@ df = preprocess(df)
 print(df.sample(n=10, random_state=42).to_markdown(index=False))
 
 # Carregar o conjunto de dados
-x = df[['price', 'tax', 'mpg', 'engineSize', 'mileage', 'year']]
+#x = df[['price', 'tax', 'mpg', 'engineSize', 'mileage', 'year']]
+#y = df['fuelType']
+# Carregar o conjunto de dados
+
+x = preprocess(df)
 y = df['fuelType']
 
 # Dividir os dados em conjuntos de treinamento e teste
@@ -53,5 +58,5 @@ tree.plot_tree(classifier)
 
 # Para imprimir na página HTML
 buffer = StringIO()
-plt.savefig(buffer, format="svg", transparent=True)
+plt.savefig(buffer, format="svg")
 print(buffer.getvalue())

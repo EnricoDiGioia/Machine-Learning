@@ -37,11 +37,7 @@ df = preprocess(df)
 print(df.sample(n=10, random_state=42).to_markdown(index=False))
 
 # Carregar o conjunto de dados
-#x = df[['price', 'tax', 'mpg', 'engineSize', 'mileage', 'year']]
-#y = df['fuelType']
-# Carregar o conjunto de dados
-
-x = preprocess(df)
+x = df[['price', 'tax', 'mpg', 'engineSize', 'mileage', 'year']]
 y = df['fuelType']
 
 # Dividir os dados em conjuntos de treinamento e teste
@@ -55,6 +51,8 @@ classifier.fit(x_train, y_train)
 accuracy = classifier.score(x_test, y_test)
 print(f"Accuracy: {accuracy:.2f}")
 tree.plot_tree(classifier)
+
+plt.show()
 
 # Para imprimir na página HTML
 buffer = StringIO()

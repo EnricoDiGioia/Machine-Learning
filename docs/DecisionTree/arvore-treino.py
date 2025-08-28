@@ -55,6 +55,7 @@ tree.plot_tree(classifier, filled=True)
 plt.title("Árvore de Decisão Treinada")
 plt.xlabel("Features")
 plt.ylabel("Classes")
+plt.show()
 
 # Para imprimir na página HTML
 buffer = StringIO()

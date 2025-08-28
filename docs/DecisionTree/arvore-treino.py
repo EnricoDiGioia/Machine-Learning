@@ -58,6 +58,6 @@ plt.ylabel("Classes")
 plt.show()
 
 # Para imprimir na página HTML
-buffer = StringIO()
-plt.savefig(buffer, format="svg")
-print(buffer.getvalue())
+#buffer = StringIO()
+#plt.savefig(buffer, format="svg")
+#print(buffer.getvalue())

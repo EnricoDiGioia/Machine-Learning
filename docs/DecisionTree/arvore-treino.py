@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score
 
+plt.figure(figsize=(12, 10))
 
 # Preprocess the data
 def preprocess(df):
@@ -50,10 +51,7 @@ accuracy = classifier.score(x_test, y_test)
 print(f"Accuracy: {accuracy:.2f}")
 tree.plot_tree(classifier)
 
-plt.figure(figsize=(20, 10))
-plt.show(tree)
-
 # Para imprimir na página HTML
-#buffer = StringIO()
-#plt.savefig(buffer, format="svg")
-#print(buffer.getvalue())
+buffer = StringIO()
+plt.savefig(buffer, format="svg", transparent=True)
+print(buffer.getvalue())

@@ -50,9 +50,13 @@ accuracy = classifier.score(x_test, y_test)
 print(f"Accuracy: {accuracy:.2f}")
 tree.plot_tree(classifier)
 
+plt.figure(figsize=(20, 10))
+tree.plot_tree(classifier, filled=True)
+plt.title("Árvore de Decisão Treinada")
+plt.xlabel("Features")
+plt.ylabel("Classes")
 
 # Para imprimir na página HTML
 buffer = StringIO()
 plt.savefig(buffer, format="svg")
 print(buffer.getvalue())
-plt.show(classifier)

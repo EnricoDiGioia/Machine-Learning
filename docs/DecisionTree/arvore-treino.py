@@ -54,5 +54,5 @@ tree.plot_tree(classifier)
 buffer = StringIO()
 plt.savefig(buffer, format="svg")
 svg_data = buffer.getvalue()
-with open("arvore.svg", "w", encoding="utf-8") as f:
+with open("docs/DecisionTree/arvore.svg", "w", encoding="utf-8") as f:
     f.write(svg_data)

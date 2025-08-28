@@ -25,7 +25,6 @@ def preprocess(df):
     features = ['model', 'year', 'price', 'transmission', 'mileage', 'fuelType', 'tax', 'mpg', 'engineSize']
     return df[features]
 
-plt.figure(figsize=(12, 10))
 
 # Load the Audi dataset
 df = pd.read_csv('https://raw.githubusercontent.com/EnricoDiGioia/Machine-Learning/refs/heads/main/data/audi.csv')
@@ -55,6 +54,6 @@ tree.plot_tree(classifier)
 #plt.show()
 
 # Para imprimir na página HTML
-buffer = StringIO()
-plt.savefig(buffer, format="svg")
-print(buffer.getvalue())
+#buffer = StringIO()
+#plt.savefig(buffer, format="svg")
+#print(buffer.getvalue())

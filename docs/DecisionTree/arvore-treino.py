@@ -51,6 +51,6 @@ print(f"Accuracy: {accuracy:.2f}")
 tree.plot_tree(classifier)
 
 # Para imprimir na página HTML
-#buffer = StringIO()
-#plt.savefig(buffer, format="svg")
-#print(buffer.getvalue())
+buffer = StringIO()
+plt.savefig(buffer, format="svg")
+print(buffer.getvalue())

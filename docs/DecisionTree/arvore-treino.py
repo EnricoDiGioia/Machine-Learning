@@ -53,4 +53,6 @@ tree.plot_tree(classifier)
 # Para imprimir na página HTML
 buffer = StringIO()
 plt.savefig(buffer, format="svg")
-print(buffer.getvalue())
+svg_data = buffer.getvalue()
+with open("arvore.svg", "w", encoding="utf-8") as f:
+    f.write(svg_data)

@@ -27,6 +27,9 @@
 ``` python exec="on" html="0"
 --8<-- "./docs/DecisionTree/arvore-treino.py"
 ```
+
+<object type="image/svg+xml" data="arvore.svg"></object>
+
 O teste com 80% atingiu 99% de acurácia, ou seja, overfitting.
 
 ## Teste com 70% dos dados para treino

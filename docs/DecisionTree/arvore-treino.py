@@ -50,9 +50,9 @@ accuracy = classifier.score(x_test, y_test)
 print(f"Accuracy: {accuracy:.2f}")
 tree.plot_tree(classifier)
 
+plt.show()
+
 # Para imprimir na página HTML
 buffer = StringIO()
 plt.savefig(buffer, format="svg")
-svg_data = buffer.getvalue()
-with open("docs/DecisionTree/arvore.svg", "w", encoding="utf-8") as f:
-    f.write(svg_data)
+print(buffer.getvalue())

@@ -51,7 +51,7 @@ print(f"Accuracy: {accuracy:.2f}")
 tree.plot_tree(classifier)
 
 plt.figure(figsize=(20, 10))
-plt.show()
+plt.show(tree)
 
 # Para imprimir na página HTML
 #buffer = StringIO()

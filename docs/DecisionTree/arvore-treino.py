@@ -51,10 +51,6 @@ print(f"Accuracy: {accuracy:.2f}")
 tree.plot_tree(classifier)
 
 plt.figure(figsize=(20, 10))
-tree.plot_tree(classifier, filled=True)
-plt.title("Árvore de Decisão Treinada")
-plt.xlabel("Features")
-plt.ylabel("Classes")
 plt.show()
 
 # Para imprimir na página HTML

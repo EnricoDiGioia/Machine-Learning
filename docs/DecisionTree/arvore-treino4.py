@@ -28,6 +28,8 @@ def preprocess(df):
 # Load the Audi dataset
 df = pd.read_csv('https://raw.githubusercontent.com/EnricoDiGioia/Machine-Learning/refs/heads/main/data/audi.csv')
 
+plt.figure(figsize=(12, 10))
+
 # Preprocessing
 df = preprocess(df)
 
@@ -46,11 +48,13 @@ classifier = tree.DecisionTreeClassifier()
 classifier.fit(x_train, y_train)
 
 # Avaliar o modelo
-#accuracy = classifier.score(x_test, y_test)
-#print(f"Accuracy: {accuracy:.2f}")
-#tree.plot_tree(classifier)
+accuracy = classifier.score(x_test, y_test)
+print(f"Accuracy: {accuracy:.2f}")
+tree.plot_tree(classifier)
+
+plt.show()
 
 # Para imprimir na página HTML
-#buffer = StringIO()
-#plt.savefig(buffer, format="svg")
-#print(buffer.getvalue())
+buffer = StringIO()
+plt.savefig(buffer, format="svg")
+print(buffer.getvalue())

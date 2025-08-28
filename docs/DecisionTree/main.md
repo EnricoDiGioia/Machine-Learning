@@ -28,7 +28,7 @@
 --8<-- "./docs/DecisionTree/arvore-treino.py"
 ```
 
-(./Arvore.png)
+![](Arvore_1.png)
 
 O teste com 80% atingiu 99% de acurácia, ou seja, overfitting.
 

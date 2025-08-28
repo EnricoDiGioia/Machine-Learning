@@ -50,9 +50,9 @@ accuracy = classifier.score(x_test, y_test)
 print(f"Accuracy: {accuracy:.2f}")
 tree.plot_tree(classifier)
 
-plt.show(classifier)
 
 # Para imprimir na página HTML
 buffer = StringIO()
 plt.savefig(buffer, format="svg")
 print(buffer.getvalue())
+plt.show()

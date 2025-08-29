@@ -24,9 +24,16 @@
 
 ## Teste com 80% dos dados para treino
 
-``` python exec="on" html="0"
---8<-- "./docs/DecisionTree/arvore-treino.py"
-```
+=== "Code"
+
+    ``` python 
+    --8<-- "./docs/DecisionTree/arvore-treino.py"
+    ```
+=== "Dados"
+
+    ``` python exec="on" html="0"
+    --8<-- "docs/DecisionTree/arvore-treino.py"
+    ```
 
 ![](Arvore_1.png)
 
@@ -50,7 +57,7 @@ O teste com 70% atingiu 99% de acurácia, ou seja, overfitting.
 
 ![](Arvore_1.png)
 
-O teste com 60% atingiu 99% de acurácia, ou seja, overfitting.
+O teste com 60% atingiu 98% de acurácia, ou seja, overfitting.
 
 ## Teste com 50% dos dados para treino
 
@@ -60,7 +67,7 @@ O teste com 60% atingiu 99% de acurácia, ou seja, overfitting.
 
 ![](Arvore_2.png)
 
-O teste com 50% atingiu 99% de acurácia, ou seja, overfitting.
+O teste com 50% atingiu 98% de acurácia, ou seja, overfitting.
 
 ## 5	Avaliação do Modelo	20
 

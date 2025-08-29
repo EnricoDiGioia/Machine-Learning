@@ -3,3 +3,4 @@ env/
 .cache/
 .vscode/
 target/
+.cache/plugin/git-committers/page-authors.json

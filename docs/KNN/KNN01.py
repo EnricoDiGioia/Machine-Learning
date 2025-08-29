@@ -1,12 +1,3 @@
-import matplotlib.pyplot as plt
-import kagglehub
-import pandas as pd
-from kagglehub import KaggleDatasetAdapter
-from io import StringIO
-from sklearn import tree
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score
 import numpy as np
 import matplotlib.pyplot as plt
 from io import StringIO
@@ -18,26 +9,9 @@ import seaborn as sns
 
 plt.figure(figsize=(12, 10))
 
-# Preprocess the data
-def preprocess(df):
-    # Fill missing values
-    df['tax'].fillna(df['tax'].median(), inplace=True)
-    df['mpg'].fillna(df['mpg'].median(), inplace=True)
-    df['price'].fillna(df['price'].median(), inplace=True)
-
-    # Convert categorical variables
-    label_encoder = LabelEncoder()
-    df['transmission'] = label_encoder.fit_transform(df['transmission'])
-    df['fuelType'] = label_encoder.fit_transform(df['fuelType'])
-
-    # Select features
-    features = ['model', 'year', 'price', 'transmission', 'mileage', 'fuelType', 'tax', 'mpg', 'engineSize']
-    return df[features]
-
-# Load the Audi dataset
-#X , Y = pd.read_csv('https://raw.githubusercontent.com/EnricoDiGioia/Machine-Learning/refs/heads/main/data/audi.csv')
+# Generate synthetic dataset
 X, y = make_classification(n_samples=100, n_features=2, n_informative=2, n_redundant=0, n_repeated=0, n_classes=2, n_clusters_per_class=1, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Train KNN model
 knn = KNeighborsClassifier(n_neighbors=3)

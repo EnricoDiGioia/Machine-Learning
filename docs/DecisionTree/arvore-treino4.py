@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score
 
+plt.figure(figsize=(12, 10))
 
 # Preprocess the data
 def preprocess(df):
@@ -33,7 +34,7 @@ df = pd.read_csv('https://raw.githubusercontent.com/EnricoDiGioia/Machine-Learni
 df = preprocess(df)
 
 # Display the first few rows of the dataset
-print(df.sample(n=10, random_state=42).to_markdown(index=False))
+#print(df.sample(n=10, random_state=42).to_markdown(index=False))
 
 # Carregar o conjunto de dados
 x = df[['price', 'tax', 'mpg', 'engineSize', 'mileage', 'year']]
@@ -53,6 +54,6 @@ tree.plot_tree(classifier)
 
 
 # Para imprimir na página HTML
-#buffer = StringIO()
-#plt.savefig(buffer, format="svg")
-#print(buffer.getvalue())
+buffer = StringIO()
+plt.savefig(buffer, format="svg")
+print(buffer.getvalue())

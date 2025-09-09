@@ -42,11 +42,11 @@ A acurácia representa a proporção de previsões corretas em relação ao tota
     ``` python 
     --8<-- "./docs/KNN/KNN01.py"
     ```
-=== "Resultado"
 
-    ``` python exec="on" html="1"
-    --8<-- "./docs/KNN/KNN01.py"
-    ```
+
+``` python exec="on" html="1"
+--8<-- "./docs/KNN/KNN01.py"
+```
 
 ## 5	Relatório Final
 

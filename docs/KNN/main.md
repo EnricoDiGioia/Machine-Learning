@@ -37,12 +37,6 @@ Durante o treinamento, o KNN armazena os exemplos do conjunto de treino e, ao re
 Após o treinamento do modelo KNN, a avaliação de desempenho foi realizada utilizando o conjunto de teste separado anteriormente. Para isso, o modelo fez previsões sobre os dados de teste e a acurácia foi calculada por meio da função accuracy_score da biblioteca scikit-learn.
 
 A acurácia representa a proporção de previsões corretas em relação ao total de exemplos avaliados, sendo uma métrica simples e direta para problemas de classificação. Esse processo permite verificar se o modelo está generalizando bem para dados que não foram vistos durante o treinamento, fornecendo uma estimativa confiável de seu desempenho em situações reais.
-=== "Code"
-
-    ``` python 
-    --8<-- "./docs/KNN/KNN01.py"
-    ```
-
 
 ``` python exec="on" html="1"
 --8<-- "./docs/KNN/KNN01.py"

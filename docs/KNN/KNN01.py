@@ -61,6 +61,6 @@ sns.scatterplot(data=df_plot, x='price', y='tax', hue='fuelType')
 #plt.title("KNN Decision Boundary (k=3)")
 #
 ## Display the plot
-#buffer = StringIO()
-#plt.savefig(buffer, format="svg", transparent=True)
-#print(buffer.getvalue())
+buffer = StringIO()
+plt.savefig(buffer, format="svg", transparent=True)
+print(buffer.getvalue())

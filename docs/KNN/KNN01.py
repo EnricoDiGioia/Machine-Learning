@@ -9,6 +9,8 @@ from sklearn.metrics import accuracy_score
 import pandas as pd
 import seaborn as sns
 
+plt.figure(figsize=(10, 6))
+
 # Limpar e preparar os dados
 def preprocess(df):
     # Fill missing values

@@ -143,3 +143,4 @@ nav:
   - Atividades:
     - Decision Tree: ./DecisionTree/main.md
     - KNN: ./KNN/main.md
+    - K-Means: ./K-Means/main.md

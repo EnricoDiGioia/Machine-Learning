@@ -29,22 +29,25 @@ cmap = plt.get_cmap('viridis')
 colors = [cmap(i / (kmeans.n_clusters - 1)) for i in range(kmeans.n_clusters)]
 
 # Plotar cada cluster com legenda do tipo de transmissão mais comum
+legend_labels = []
 for cluster in range(kmeans.n_clusters):
     cluster_data = df[df['cluster'] == cluster]
-    # Tipo de transmissão mais comum no cluster
-    if not cluster_data.empty:
-        common_trans = cluster_data['transmission'].mode()[0]
-        plt.scatter(cluster_data['mileage'], cluster_data['price'], 
-                    color=colors[cluster], s=50, 
-                    label=f'Cluster {cluster} ({common_trans})')
+    trans_counts = cluster_data['transmission'].value_counts(normalize=True).head(2)
+    # Montar string tipo: "Manual 62% | Automatic 28%"
+    parts = [f"{t} {p*100:.0f}%" for t, p in trans_counts.items()]
+    legend_labels.append(f"Cluster {cluster}: " + " | ".join(parts))
+    plt.scatter(cluster_data['mileage'], cluster_data['price'],
+                color=colors[cluster], s=50)
 
-# Plotar centróides
-plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], 
+# Substituir legenda atual
+for i, txt in enumerate(legend_labels):
+    plt.scatter([], [], color=colors[i], label=txt)
+plt.scatter(kmeans.cluster_centers_[:,0], kmeans.cluster_centers_[:,1],
             c='red', marker='*', s=200, label='Centroids')
+plt.legend()
 plt.title('K-Means Clustering Results')
 plt.xlabel('Mileage')
 plt.ylabel('Price')
-plt.legend()
 
 # Adicionar os rótulos ao DataFrame
 #df['cluster'] = labels

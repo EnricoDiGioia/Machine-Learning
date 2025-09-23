@@ -59,34 +59,11 @@ print(f"Accuracy: {accuracy:.4f}")
 print(f"Precision: {precision:.4f}")
 print(f"F1-Score: {f1:.4f}")
 
-# Criar subplot para organizar melhor a visualização
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 8))
-
 # Plotar a árvore de decisão
-tree.plot_tree(classifier, ax=ax1, feature_names=['price', 'tax', 'mpg', 'engineSize', 'mileage', 'year'], 
+plt.figure(figsize=(16, 12))
+tree.plot_tree(classifier, feature_names=['price', 'tax', 'mpg', 'engineSize', 'mileage', 'year'], 
                class_names=['Diesel', 'Hybrid', 'Petrol'], filled=True, rounded=True)
-ax1.set_title('Árvore de Decisão', fontsize=16, fontweight='bold')
-
-# Plotar as métricas
-metrics = ['Accuracy', 'Precision', 'F1-Score']
-values = [accuracy, precision, f1]
-colors = ['#FF6B6B', '#4ECDC4', '#45B7D1']
-
-bars = ax2.bar(metrics, values, color=colors, alpha=0.8, edgecolor='black', linewidth=1.5)
-ax2.set_ylabel('Score', fontsize=12, fontweight='bold')
-ax2.set_title('Métricas de Avaliação do Modelo', fontsize=16, fontweight='bold')
-ax2.set_ylim(0, 1)
-
-# Adicionar valores nas barras
-for bar, value in zip(bars, values):
-    height = bar.get_height()
-    ax2.text(bar.get_x() + bar.get_width()/2., height + 0.01,
-             f'{value:.4f}', ha='center', va='bottom', fontweight='bold')
-
-# Adicionar grid para melhor visualização
-ax2.grid(True, alpha=0.3, axis='y')
-
-plt.tight_layout()
+plt.title('Árvore de Decisão', fontsize=16, fontweight='bold')
 
 
 # Para imprimir na página HTML

@@ -6,7 +6,9 @@ from io import StringIO
 from sklearn import tree
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score, precision_score, f1_score
+from sklearn.metrics import accuracy_score, precision_score, f1_score, confusion_matrix
+import seaborn as sns
+import numpy as np
 
 
 plt.figure(figsize=(16, 12))

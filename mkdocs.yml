@@ -144,3 +144,4 @@ nav:
     - Decision Tree: ./DecisionTree/main.md
     - KNN: ./KNN/main.md
     - K-Means: ./K-Means/main.md
+    - Métricas: ./Metricas/main.md

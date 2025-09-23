@@ -32,8 +32,8 @@ colors = [cmap(i / (kmeans.n_clusters - 1)) for i in range(kmeans.n_clusters)]
 legend_labels = []
 for cluster in range(kmeans.n_clusters):
     cluster_data = df[df['cluster'] == cluster]
-    trans_counts = cluster_data['transmission'].value_counts(normalize=True).head(2)
-    # Montar string tipo: "Manual 62% | Automatic 28%"
+    trans_counts = cluster_data['transmission'].value_counts(normalize=True)
+    # Montar string tipo: "Manual 62% | Automatic 28% | Semi-Auto 10%"
     parts = [f"{t} {p*100:.0f}%" for t, p in trans_counts.items()]
     legend_labels.append(f"Cluster {cluster}: " + " | ".join(parts))
     plt.scatter(cluster_data['mileage'], cluster_data['price'],

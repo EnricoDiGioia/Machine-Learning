@@ -63,9 +63,9 @@ metrics_data = {
 
 metrics_df = pd.DataFrame(metrics_data)
 
-print("=== TABELA DE MÉTRICAS DE AVALIAÇÃO ===")
-print(metrics_df.to_string(index=False, formatters={'Valor': '{:.4f}'.format}))
-print("\n" + "="*50)
+#print("=== TABELA DE MÉTRICAS DE AVALIAÇÃO ===")
+#print(metrics_df.to_string(index=False, formatters={'Valor': '{:.4f}'.format}))
+#print("\n" + "="*50)
 
 # Criar visualização da tabela
 fig, ax = plt.subplots(figsize=(12, 6))

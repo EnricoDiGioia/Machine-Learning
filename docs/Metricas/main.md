@@ -18,7 +18,7 @@
 
 ### Tabela Resumo das Métricas
 
-``` python exec="on" html="0"
+``` python exec="on" html="1"
 --8<-- "./docs/Metricas/tabela-metricas.py"
 ```
 

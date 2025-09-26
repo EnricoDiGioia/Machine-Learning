@@ -16,6 +16,12 @@
 
 **Weighted Average**: Pondera cada classe pelo número de amostras, adequado para classificação multiclasse (Diesel, Petrol, Hybrid).
 
+### Tabela Resumo das Métricas
+
+``` python exec="on" html="1"
+--8<-- "./docs/Metricas/tabela-metricas.py"
+```
+
 ### Árvore de Decisão com Métricas
 
 ``` python exec="on" html="1"

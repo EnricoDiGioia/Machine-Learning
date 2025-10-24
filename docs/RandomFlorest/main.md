@@ -1,5 +1,5 @@
 
-# Random Forest para Classificação de Modelos Audi
+# Random Forest para Classificação de Modelos
 
 ## Sobre o Script
 O script abaixo utiliza o dataset `audi.csv`, que contém informações sobre carros da marca Audi, para prever o modelo do carro (`model`) a partir de características como ano, preço, transmissão, quilometragem, tipo de combustível, imposto, consumo (mpg) e tamanho do motor.

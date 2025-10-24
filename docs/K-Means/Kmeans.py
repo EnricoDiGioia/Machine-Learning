@@ -11,12 +11,9 @@ plt.figure(figsize=(12, 10))
 url = "https://raw.githubusercontent.com/EnricoDiGioia/Machine-Learning/refs/heads/main/data/audi.csv"
 df = pd.read_csv(url)
 
-# Selecionar duas colunas numéricas para o K-means
-# Exemplo usando 'year' e 'price'
 X = df[["mileage", "price"]].values
 
 
-# Run K-Means
 kmeans = KMeans(n_clusters=2, init='k-means++', max_iter=100, random_state=42)
 labels = kmeans.fit_predict(X)
 

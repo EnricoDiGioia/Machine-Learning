@@ -8,5 +8,4 @@
 
 ## Autor
 
-** Enrico Comasseto Di Gioia ** 
-
+*Enrico Comasseto Di Gioia* 

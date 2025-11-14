@@ -140,3 +140,4 @@ nav:
     - K-Means: ./K-Means/main.md
     - Métricas: ./Metricas/main.md
     - Random Florest: ./RandomFlorest/main.md
+    - SVM: ./SVM/main.md

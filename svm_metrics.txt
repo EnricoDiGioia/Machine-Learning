@@ -1,0 +1,18 @@
+C:\Users\enrico.gioia\Desktop\Prog\Java humberto\projetoAtvd2\Machine-Learning\docs\SVM\SVM.py:45: FutureWarning: A value is trying to be set on a copy of a DataFrame or Series through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work because the intermediate object on which we are setting values always behaves as a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using 'df.method({col: value}, inplace=True)' or df[col] = df[col].method(value) instead, to perform the operation inplace on the original object.
+
+
+  data['price'].fillna(data['price'].median(), inplace=True)
+C:\Users\enrico.gioia\Desktop\Prog\Java humberto\projetoAtvd2\Machine-Learning\docs\SVM\SVM.py:46: FutureWarning: A value is trying to be set on a copy of a DataFrame or Series through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work because the intermediate object on which we are setting values always behaves as a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using 'df.method({col: value}, inplace=True)' or df[col] = df[col].method(value) instead, to perform the operation inplace on the original object.
+
+
+  data['engineSize'].fillna(data['engineSize'].median(), inplace=True)
+Kernel: linear — Accuracy: 0.7404, Precision: 0.7391, Recall: 0.7404, F1: 0.7397
+Kernel: sigmoid — Accuracy: 0.6717, Precision: 0.6737, Recall: 0.6717, F1: 0.6725
+Kernel: poly — Accuracy: 0.5312, Precision: 0.5570, Recall: 0.5312, F1: 0.3802
+Kernel: rbf — Accuracy: 0.8165, Precision: 0.8456, Recall: 0.8165, F1: 0.8093

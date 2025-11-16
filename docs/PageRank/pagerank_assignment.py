@@ -4,7 +4,8 @@ import argparse
 import gzip
 import os
 import sys
-from typing import Iterable, List, Tuple
+from typing import Iterable, List, Tuple, Any
+import time
 import io
 
 import matplotlib
@@ -81,7 +82,7 @@ def build_sparse_transition(edges: Iterable[Tuple[str, str]]):
     return M, nodes
 
 
-def pagerank_power_iteration(M: "csr_matrix", damping: float = 0.85, tol: float = 1e-4, max_iter: int = 100) -> np.ndarray:
+def pagerank_power_iteration(M: Any, damping: float = 0.85, tol: float = 1e-4, max_iter: int = 100) -> Tuple[np.ndarray, int, float]:
     if csr_matrix is None:
         raise RuntimeError("scipy is required for this function")
 
@@ -112,11 +113,11 @@ def pagerank_power_iteration(M: "csr_matrix", damping: float = 0.85, tol: float 
             # normalize and return
             pr = pr / pr.sum()
             # print progress
-            return pr
+            return pr, iteration, diff
 
     # final normalize
     pr = pr / pr.sum()
-    return pr
+    return pr, max_iter, np.abs(pr - prev).sum()
 
 
 def load_edges_for_dataset(name: str, cache_dir: str = "data") -> str:
@@ -239,7 +240,23 @@ def main(argv: List[str] | None = None):
 
     for d in args.dampings:
         print("\n--- Damping factor: {} ---".format(d), file=text_stream)
-        pr_vec = pagerank_power_iteration(M, damping=d, tol=args.tol, max_iter=args.max_iter)
+        start = time.time()
+        pr_res = pagerank_power_iteration(M, damping=d, tol=args.tol, max_iter=args.max_iter)
+        if isinstance(pr_res, tuple):
+            pr_vec, iters, last_diff = pr_res
+        else:
+            pr_vec = pr_res
+            iters = args.max_iter
+            last_diff = float('nan')
+        elapsed = time.time() - start
+
+        # basic solution metrics
+        dangling_cols = int((np.array(M.sum(axis=0)).ravel() == 0).sum())
+        n_nodes = M.shape[0]
+        dangling_frac = dangling_cols / max(1, n_nodes)
+
+        print(f"Converged in {iters} iterations, final L1 diff={last_diff:.6e}, time={elapsed:.4f}s", file=text_stream)
+        print(f"Nodes={n_nodes}, dangling={dangling_cols} ({dangling_frac:.2%})", file=text_stream)
 
         # top-K from custom PR
         order = np.argsort(-pr_vec)

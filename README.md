@@ -13,6 +13,10 @@ Ative o ambiente virtual (**você deve fazer isso sempre que for executar algum 
 ``` shell
 source env\Scripts\activate
 ```
+Caso de merda 
+``` shell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
 
 Instale as dependências com:
 

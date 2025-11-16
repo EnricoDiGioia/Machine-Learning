@@ -141,3 +141,4 @@ nav:
     - Métricas: ./Metricas/main.md
     - Random Florest: ./RandomFlorest/main.md
     - SVM: ./SVM/main.md
+    - PageRank: ./PageRank/main.md

@@ -12,7 +12,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 import numpy as np
-import networkx as nx
+try:
+    import networkx as nx
+except Exception:
+    nx = None
 
 try:
     from scipy.sparse import csr_matrix
@@ -204,6 +207,8 @@ def main(argv: List[str] | None = None):
     parser.add_argument("--max-iter", type=int, default=200, help="Max iterations for power iteration")
     parser.add_argument("--top", type=int, default=10, help="Top-K nodes to show")
     parser.add_argument("--cache-dir", type=str, default="data", help="Cache dir for downloads")
+    parser.add_argument("--plot", action="store_true", help="Generate an SVG bar plot for top-K PageRank scores")
+    parser.add_argument("--plot-out", type=str, default=None, help="Write SVG plot to this file. If omitted and --plot set, SVG is printed to stdout.")
     args = parser.parse_args(argv)
 
     if args.dataset and not args.edges:
@@ -215,37 +220,61 @@ def main(argv: List[str] | None = None):
 
     directed = not args.undirected and args.directed
 
-    print(f"Loading edges from: {path} (directed={directed})")
+    plot_to_stdout = args.plot and not args.plot_out
+    text_stream = sys.stderr if plot_to_stdout else sys.stdout
+
+    print(f"Loading edges from: {path} (directed={directed})", file=text_stream)
 
     # Build sparse transition matrix and node list
-    print("Building sparse transition matrix...")
+    print("Building sparse transition matrix...", file=text_stream)
     M, nodes = build_sparse_transition(read_edge_list(path, directed=directed))
 
-    # Build networkx graph for comparison and for mapping to node ids
-    print("Building NetworkX graph (for comparison)...")
-    G = build_nx_graph_from_edges_file(path, directed=directed)
+    # Build networkx graph for comparison and for mapping to node ids (if available)
+    if nx is None:
+        print("networkx not available; skipping networkx comparison.", file=text_stream)
+        G = None
+    else:
+        print("Building NetworkX graph (for comparison)...", file=text_stream)
+        G = build_nx_graph_from_edges_file(path, directed=directed)
 
     for d in args.dampings:
-        print("\n--- Damping factor: {} ---".format(d))
+        print("\n--- Damping factor: {} ---".format(d), file=text_stream)
         pr_vec = pagerank_power_iteration(M, damping=d, tol=args.tol, max_iter=args.max_iter)
 
         # top-K from custom PR
         order = np.argsort(-pr_vec)
-        print(f"Top {args.top} nodes (custom PageRank):")
+        print(f"Top {args.top} nodes (custom PageRank):", file=text_stream)
         for rank, idx in enumerate(order[: args.top], start=1):
-            print(f"{rank:2d}. {nodes[idx]}  score={pr_vec[idx]:.6e}")
+            print(f"{rank:2d}. {nodes[idx]}  score={pr_vec[idx]:.6e}", file=text_stream)
 
-        # compare with networkx
-        try:
-            nx_vec = compare_with_networkx(G, pr_vec, nodes, d)
-            order_nx = np.argsort(-nx_vec)
-            print(f"Top {args.top} nodes (networkx.pagerank):")
-            for rank, idx in enumerate(order_nx[: args.top], start=1):
-                print(f"{rank:2d}. {nodes[idx]}  score={nx_vec[idx]:.6e}")
-        except Exception as e:
-            print(f"networkx comparison failed: {e}")
+        # compare with networkx (if available)
+        nx_vec = None
+        if G is not None:
+            try:
+                nx_vec, diff = compare_with_networkx(G, pr_vec, nodes, d)
+                print(f"L1 difference between custom PageRank and networkx.pagerank (d={d}): {diff:.6f}", file=text_stream)
+                order_nx = np.argsort(-nx_vec)
+                print(f"Top {args.top} nodes (networkx.pagerank):", file=text_stream)
+                for rank, idx in enumerate(order_nx[: args.top], start=1):
+                    print(f"{rank:2d}. {nodes[idx]}  score={nx_vec[idx]:.6e}", file=text_stream)
+            except Exception as e:
+                print(f"networkx comparison failed: {e}", file=text_stream)
 
-    print("\nDone.")
+        # plotting
+        if args.plot:
+            svg = None
+            try:
+                if args.plot_out:
+                    plot_topk(pr_vec, nx_vec, nodes, top=args.top, outpath=args.plot_out)
+                    print(f"Wrote plot to: {args.plot_out}", file=text_stream)
+                else:
+                    svg = plot_topk(pr_vec, nx_vec, nodes, top=args.top, outpath=None)
+                    # when printing SVG to stdout we must ensure it's stdout (not the text stream)
+                    sys.stdout.write(svg)
+            except Exception as e:
+                print(f"Plotting failed: {e}", file=text_stream)
+
+    print("\nDone.", file=text_stream)
 
 
 if __name__ == "__main__":

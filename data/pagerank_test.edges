@@ -1,0 +1,14 @@
+# small test graph
+A B
+B C
+C A
+A D
+D C
+E D
+F E
+E F
+G H
+H G
+I J
+J K
+K I

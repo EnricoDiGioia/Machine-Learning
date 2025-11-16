@@ -5,6 +5,11 @@ import gzip
 import os
 import sys
 from typing import Iterable, List, Tuple
+import io
+
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
 import numpy as np
 import networkx as nx
@@ -132,17 +137,53 @@ def load_edges_for_dataset(name: str, cache_dir: str = "data") -> str:
 
 
 def compare_with_networkx(G: nx.DiGraph, pr_vector: np.ndarray, nodes: List[str], damping: float):
-    """Compute networkx.pagerank and print a short comparison."""
+    """Compute networkx.pagerank and return vector and L1 diff."""
     nx_pr = nx.pagerank(G, alpha=damping, weight="weight")
-    # build vector in same order
     nx_vec = np.array([nx_pr.get(node, 0.0) for node in nodes], dtype=float)
-    # normalize both
     nx_vec = nx_vec / nx_vec.sum()
     pr_vector = pr_vector / pr_vector.sum()
-    # L1 difference
     diff = np.abs(pr_vector - nx_vec).sum()
-    print(f"L1 difference between custom PageRank and networkx.pagerank (d={damping}): {diff:.6f}")
-    return nx_vec
+    return nx_vec, diff
+
+
+def plot_topk(pr_vec: np.ndarray, nx_vec: np.ndarray | None, nodes: List[str], top: int = 10, outpath: str | None = None) -> str | None:
+    """Create a side-by-side bar plot for top-K PageRank scores.
+
+    If outpath is None, returns the SVG string, otherwise writes SVG to `outpath` and returns None.
+    """
+    order = np.argsort(-pr_vec)
+    top_idx = order[:top]
+    top_nodes = [nodes[i] for i in top_idx]
+    pr_scores = pr_vec[top_idx]
+
+    nx_scores = None
+    if nx_vec is not None:
+        nx_scores = nx_vec[top_idx]
+
+    x = np.arange(len(top_nodes))
+    width = 0.35
+
+    fig, ax = plt.subplots(figsize=(max(6, top * 0.6), 4))
+    ax.bar(x - width/2, pr_scores, width, label='custom')
+    if nx_scores is not None:
+        ax.bar(x + width/2, nx_scores, width, label='networkx')
+    ax.set_xticks(x)
+    ax.set_xticklabels(top_nodes, rotation=45, ha='right')
+    ax.set_ylabel('PageRank score')
+    ax.set_title(f'Top {top} PageRank scores')
+    ax.legend()
+    fig.tight_layout()
+
+    if outpath:
+        fig.savefig(outpath, format='svg')
+        plt.close(fig)
+        return None
+    else:
+        buf = io.StringIO()
+        fig.savefig(buf, format='svg')
+        svg = buf.getvalue()
+        plt.close(fig)
+        return svg
 
 
 def build_nx_graph_from_edges_file(path: str, directed: bool = True) -> nx.DiGraph:

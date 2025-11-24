@@ -38,5 +38,3 @@ graph = {
 - **Uso prático:** Ordenar nós por PageRank indica quais nós são mais centrais/influentes no grafo; útil para priorização, resumo ou análise de influência. Para decisões operacionais, foque nos nós com maior PageRank (C e A no exemplo).
 - **Validação e sensibilidade:** Verifique se os valores somam ~1 (sanidade) e experimente variar `d` ou modificar arestas para testar robustez do ranking.
 
-Se desejar, posso adicionar automaticamente os resultados de uma execução (valores numéricos concretos) ao documento, ou gerar um gráfico com os valores de PageRank.
-

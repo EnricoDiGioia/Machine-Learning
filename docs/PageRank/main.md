@@ -19,10 +19,18 @@ graph = {
 ---
 
 ## Codigo do Page Rank
+=== "output"
 
-``` python exec="off" 
---8<-- "./docs/PageRank/pagerank.py"
-```
+    ``` python exec="on" html="1"
+    --8<-- "./docs/PageRank/pagerank.py"
+    ```
+
+
+=== "code"
+
+    ``` python exec="off" 
+    --8<-- "./docs/PageRank/pagerank.py"
+    ```
 
 ---
 

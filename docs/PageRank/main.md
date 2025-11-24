@@ -36,5 +36,4 @@ graph = {
 - **Efeito do damping factor (d):** Com `d = 0.85` usamos 85% do fluxo vindo de repasses pelos links e 15% de teletransporte uniforme. Diminuir `d` torna os valores mais próximos entre os nós (mais aleatoriedade); aumentar `d` enfatiza mais a estrutura de links.
 - **Dangling nodes:** Nós sem saídas têm seu PageRank redistribuído igualmente entre todos os nós. No grafo de exemplo todos os nós têm saídas, portanto esse efeito não foi decisivo aqui.
 - **Uso prático:** Ordenar nós por PageRank indica quais nós são mais centrais/influentes no grafo; útil para priorização, resumo ou análise de influência. Para decisões operacionais, foque nos nós com maior PageRank (C e A no exemplo).
-- **Validação e sensibilidade:** Verifique se os valores somam ~1 (sanidade) e experimente variar `d` ou modificar arestas para testar robustez do ranking.
 

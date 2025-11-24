@@ -1,121 +1,121 @@
-"""
-PageRank sobre grafo de similaridade dos anúncios em `audi.csv`.
-
-Abordagem:
-- Cada anúncio (linha do CSV) é um nó.
-- Conectamos cada nó aos seus `k` vizinhos mais próximos
-  (baseado em features numéricas normalizadas) criando um grafo dirigido.
-- Executamos PageRank no grafo para ordenar anúncios por centralidade.
-
-Uso:
-python PageRank.py --url <CSV_URL> --k 10 --top 20
-
-Saída:
-- `pagerank_results.csv` com as colunas originais mais `pagerank_rank` e `pagerank_score`.
-"""
-
-from __future__ import annotations
-
-import argparse
-import os
-from typing import List
-
-import numpy as np
-import pandas as pd
-import networkx as nx
+import math
+from typing import Dict, List
 
 
-def build_similarity_graph(X: np.ndarray, k: int = 10) -> nx.DiGraph:
-	n = X.shape[0]
-	# Para eficiência, usamos sklearn NearestNeighbors quando disponível
-	try:
-		from sklearn.neighbors import NearestNeighbors
+def pagerank(graph: Dict[str, List[str]], d: float = 0.85, tol: float = 1e-6, max_iter: int = 100) -> Dict[str, float]:
+	"""
+	Calcula o PageRank para um grafo direcionado representado como dicionário
+	{node: [lista_de_nos_para_os_quais_node_aponta]}.
 
-		nbrs = NearestNeighbors(n_neighbors=min(k + 1, n), algorithm="auto").fit(X)
-		distances, indices = nbrs.kneighbors(X)
-	except Exception:
-		# Fallback ingênuo (pode ser lento em datasets grandes)
-		dists = np.sqrt(((X[:, None, :] - X[None, :, :]) ** 2).sum(axis=2))
-		indices = np.argsort(dists, axis=1)[:, : min(k + 1, n)]
-		distances = np.take_along_axis(dists, indices, axis=1)
+	Parâmetros:
+	- graph: dicionário do grafo
+	- d: damping factor (padrão 0.85)
+	- tol: tolerância de convergência (critério L1)
+	- max_iter: número máximo de iterações
 
-	G = nx.DiGraph()
-	G.add_nodes_from(range(n))
+	Retorna:
+	- dict {node: pagerank_value}
+	"""
 
-	for i in range(n):
-		neighs = indices[i]
-		dists_i = distances[i]
-		# primeiro vizinho é o próprio ponto (dist ~ 0) — descartamos
-		for j, dist in zip(neighs[1:], dists_i[1:]):
-			weight = 1.0 / (1.0 + float(dist))
-			G.add_edge(i, int(j), weight=weight)
+	# Garantir que o conjunto de nós inclua nós apontados mas não declarados
+	nodes = set(graph.keys())
+	for targets in graph.values():
+		for t in targets:
+			nodes.add(t)
 
-	return G
+	nodes = sorted(nodes)
+	n = len(nodes)
 
+	# Construir lista de in-links e grau de saída
+	in_links = {node: [] for node in nodes}
+	out_degree = {node: 0 for node in nodes}
 
-def compute_pagerank(df: pd.DataFrame, feature_cols: List[str], k: int = 10, alpha: float = 0.85) -> pd.DataFrame:
-	df2 = df.copy()
+	for src, targets in graph.items():
+		out_degree[src] = len(targets)
+		for t in targets:
+			in_links.setdefault(t, []).append(src)
 
-	# Extrai features numéricas, converte e preenche NA com mediana
-	X = df2[feature_cols].apply(pd.to_numeric, errors="coerce")
-	X = X.fillna(X.median())
+	# Tratamento de nodes que não aparecem como chaves (dangling): out_degree = 0
+	for node in nodes:
+		out_degree.setdefault(node, 0)
 
-	# Normaliza (z-score)
-	Xn = (X - X.mean()) / (X.std().replace(0, 1))
-	Xarr = Xn.values.astype(float)
+	# Inicialização: todos com 1/n
+	pr = {node: 1.0 / n for node in nodes}
 
-	G = build_similarity_graph(Xarr, k=k)
+	for iteration in range(1, max_iter + 1):
+		new_pr = {}
+		# soma de PageRank de nós dangling (sem saída)
+		dangling_sum = sum(pr[node] for node in nodes if out_degree[node] == 0)
 
-	# PageRank usando pesos
-	pr = nx.pagerank(G, alpha=alpha, weight="weight")
+		for node in nodes:
+			# teletransporte
+			new_val = (1.0 - d) / n
 
-	# mapear scores de volta ao DataFrame
-	scores = np.array([pr.get(i, 0.0) for i in range(len(df2))])
-	df2["pagerank_score"] = scores
-	df2 = df2.sort_values("pagerank_score", ascending=False).reset_index(drop=True)
-	df2["pagerank_rank"] = df2["pagerank_score"].rank(method="first", ascending=False).astype(int)
-	return df2
+			# contribuição de dangling nodes (distribuída igualmente)
+			new_val += d * dangling_sum / n
 
+			# somatório das contribuições dos in-links
+			contrib = 0.0
+			for src in in_links.get(node, []):
+				if out_degree[src] > 0:
+					contrib += pr[src] / out_degree[src]
+			new_val += d * contrib
 
-def main():
-	parser = argparse.ArgumentParser(description="PageRank via grafo de similaridade (audi.csv)")
-	parser.add_argument("--url", type=str, default=(
-		"https://raw.githubusercontent.com/EnricoDiGioia/Machine-Learning/main/data/audi.csv"
-	), help="URL do CSV (padrão: audi.csv no repo fornecido)")
-	parser.add_argument("--k", type=int, default=10, help="Número de vizinhos por nó")
-	parser.add_argument("--top", type=int, default=20, help="Quantos resultados top mostrar")
-	parser.add_argument("--out", type=str, default="pagerank_results.csv", help="Arquivo de saída CSV")
-	args = parser.parse_args()
+			new_pr[node] = new_val
 
-	print(f"Lendo CSV de: {args.url}")
-	df = pd.read_csv(args.url)
+		# Critério de convergência (norma L1)
+		diff = sum(abs(new_pr[node] - pr[node]) for node in nodes)
 
-	# limpeza básica
-	df.columns = df.columns.str.strip()
-	if "model" in df.columns:
-		df["model"] = df["model"].astype(str).str.strip()
+		pr = new_pr
 
-	# escolher colunas numéricas relevantes
-	candidate_numeric = ["year", "price", "mileage", "tax", "mpg", "engineSize"]
-	feature_cols = [c for c in candidate_numeric if c in df.columns]
-	if not feature_cols:
-		raise RuntimeError("Nenhuma coluna numérica encontrada para construir features.")
+		if diff < tol:
+			# Convergiu
+			break
 
-	print(f"Usando features: {feature_cols}")
+	# Normalizar (por segurança numérica)
+	total = sum(pr.values())
+	if not math.isclose(total, 1.0):
+		pr = {node: val / total for node, val in pr.items()}
 
-	result = compute_pagerank(df, feature_cols, k=args.k)
-
-	# salvar resultados
-	out_path = os.path.join(os.path.dirname(__file__), args.out)
-	result.to_csv(out_path, index=False)
-	print(f"Resultados salvos em: {out_path}")
-
-	# mostrar top-N
-	topn = result.head(args.top)
-	print("\nTop {0} por PageRank:".format(min(args.top, len(result))))
-	print(topn[[col for col in ["model", "year", "price", "pagerank_score"] if col in topn.columns]].to_string(index=False))
+	return pr
 
 
 if __name__ == "__main__":
-	main()
+	# Exemplo baseado no grafo fornecido pelo usuário
+	graph = {
+	    "C": ["D", "A"],
+        "A": ["C"],
+        "D": ["C", "B"],
+        "B": ["A"]
+	}
+
+	print("Calculando PageRank (implementação própria)...")
+	pr = pagerank(graph, d=0.85, tol=1e-6, max_iter=100)
+
+	# Print sozinho: apenas o resultado da implementação própria
+	print("PageRank (implementação própria) - Print sozinho:")
+	for node, score in sorted(pr.items()):
+		print(f"{node}: {round(score, 6)}")
+
+	# Comparação com NetworkX (se disponível)
+	try:
+		import networkx as nx
+
+		G = nx.DiGraph()
+		for src, targets in graph.items():
+			for t in targets:
+				G.add_edge(src, t)
+
+		nx_pr = nx.pagerank(G, alpha=0.85)
+
+		# Print de comparação lado-a-lado
+		print("\nComparação (implementação própria vs NetworkX):")
+		print(f"{'Node':<6} {'OurPR':>10} {'NX_PR':>10} {'Diff':>10}")
+		for node in sorted(set(list(pr.keys()) + list(nx_pr.keys()))):
+			our = pr.get(node, 0.0)
+			nxv = nx_pr.get(node, 0.0)
+			diff = abs(our - nxv)
+			print(f"{node:<6} {our:10.6f} {nxv:10.6f} {diff:10.6f}")
+	except ImportError:
+		print("\nNetworkX não está instalado; comparação lado-a-lado pulada.")
 

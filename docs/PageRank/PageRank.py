@@ -3,20 +3,7 @@ from typing import Dict, List
 
 
 def pagerank(graph: Dict[str, List[str]], d: float = 0.85, tol: float = 1e-6, max_iter: int = 100) -> Dict[str, float]:
-	"""
-	Calcula o PageRank para um grafo direcionado representado como dicionário
-	{node: [lista_de_nos_para_os_quais_node_aponta]}.
-
-	Parâmetros:
-	- graph: dicionário do grafo
-	- d: damping factor (padrão 0.85)
-	- tol: tolerância de convergência (critério L1)
-	- max_iter: número máximo de iterações
-
-	Retorna:
-	- dict {node: pagerank_value}
-	"""
-
+	
 	# Garantir que o conjunto de nós inclua nós apontados mas não declarados
 	nodes = set(graph.keys())
 	for targets in graph.values():
